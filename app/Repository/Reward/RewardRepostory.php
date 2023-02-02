@@ -20,24 +20,24 @@ class RewardRepostory implements IRewardRepository
         return RewardResource::collection($this->reward->newQuery()->get());
     }
 
-    public function create($data)
+    public function create($data): void
     {
-        return $this->reward
-                    ->newQuery()
-                    ->create($data);
+         $this->reward
+            ->newQuery()
+            ->create($data);
     }
 
-    public function update($data, int $rewardId)
+    public function update($data, int $rewardId): void
     {
-        return $this->reward
-                    ->newQuery()
-                    ->findOrFail($rewardId)
-                    ->update($data);
+        $this->reward
+            ->newQuery()
+            ->findOrFail($rewardId)
+            ->update($data);
     }
 
-    public function destroy(int $rewardId)
+    public function destroy(int $rewardId): void
     {
-        return $this->reward
+        $this->reward
             ->newQuery()
             ->findOrFail($rewardId)
             ->delete();
