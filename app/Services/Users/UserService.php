@@ -4,11 +4,13 @@ namespace App\Services\Users;
 
 use App\Http\Resources\LoginResource;
 use App\Repository\Users\IUserRepository;
+use App\Traits\ResponseAPI;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class UserService implements IUserService
 {
+    use ResponseAPI;
     /**
      * @param  IUserRepository  $userRepo
      */
@@ -22,12 +24,9 @@ class UserService implements IUserService
         $user = $this->userRepo->findByUsername($request->username);
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'error' => ['Username or Password Wrong'],
-            ]);
+            return $this->error('Username Or Password Wrong.', 400);
         }
-//       $token = $user->createToken('token')->plainTextToken;
-        return new LoginResource($user);
+        return $this->success('Login SuccessFully', new LoginResource($user));
     }
 
     public function register(array $request)
@@ -36,14 +35,9 @@ class UserService implements IUserService
             $this->userRepo->create($request);
         } catch (\Exception $e) {
             report($e);
-            throw ValidationException::withMessages([
-                'error' => ['terjadi kesalahan'],
-            ]);
+            return $this->error('Server Error.', 500);
         }
-
-        return response()->json([
-            'message' => 'Berhasil Mendaftar',
-        ]);
+        return $this->success('Register SuccessFully');
     }
 
     public function logout($request)
@@ -52,13 +46,8 @@ class UserService implements IUserService
             $request->user()->tokens()->delete();
         } catch (\Exception $e) {
             report($e);
-            throw ValidationException::withMessages([
-                'error' => ['terjadi kesalahan'],
-            ]);
+            return $this->error('Server Error.', 500);
         }
-
-        return response()->json([
-            'message' => 'Berhasil keluar',
-        ]);
+        return $this->success('Logout SuccessFully', null);
     }
 }
