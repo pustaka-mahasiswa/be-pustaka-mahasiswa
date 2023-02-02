@@ -25,9 +25,9 @@ class RegisterResource extends FormRequest
     public function rules()
     {
         return [
-            "username" => ['required', 'string'],
-            "email" => ['required', 'email'],
-            "password" => ['required', 'confirmed', Password::min(8)]
+            'username' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', Password::min(8)],
         ];
     }
 }

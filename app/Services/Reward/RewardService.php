@@ -7,8 +7,6 @@ use Illuminate\Validation\ValidationException;
 
 class RewardService implements IRewardService
 {
-
-
     public function listReward(Request $request): object
     {
 
@@ -18,8 +16,7 @@ class RewardService implements IRewardService
     {
         try {
 
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             throw ValidationException::withMessages([
                 'error' => ['Terjadi Kesalah Server'],
             ]);
@@ -35,6 +32,4 @@ class RewardService implements IRewardService
     {
         // TODO: Implement deleteReward() method.
     }
-
-
 }

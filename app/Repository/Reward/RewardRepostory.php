@@ -8,13 +8,12 @@ use App\Models\Reward;
 class RewardRepostory implements IRewardRepository
 {
     /**
-     * @param Reward $reward
+     * @param  Reward  $reward
      */
     public function __construct(Reward $reward)
     {
         $this->reward = $reward;
     }
-
 
     public function list(): object
     {

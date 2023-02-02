@@ -4,7 +4,7 @@ namespace App\Repository\Reward;
 
 interface IRewardRepository
 {
-    public function list() : object;
+    public function list(): object;
 
     public function create($data);
 

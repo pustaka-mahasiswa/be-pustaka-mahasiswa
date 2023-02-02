@@ -17,8 +17,8 @@ class LoginResource extends JsonResource
         return [
             'id' => $this->id,
             'username' => $this->username,
-            "amount_coin" => $this->amount_coin,
-            "token" => $this->createToken('token')->plainTextToken
+            'amount_coin' => $this->amount_coin,
+            'token' => $this->createToken('token')->plainTextToken,
         ];
     }
 }

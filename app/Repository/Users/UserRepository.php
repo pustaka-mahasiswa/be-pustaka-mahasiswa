@@ -10,7 +10,7 @@ class UserRepository implements IUserRepository
     private User $user;
 
     /**
-     * @param User $user
+     * @param  User  $user
      */
     public function __construct(User $user)
     {
@@ -26,8 +26,7 @@ class UserRepository implements IUserRepository
     {
         $data['password'] = Hash::make($data['password']);
         $this->user->create($data);
+
         return true;
     }
-
-
 }

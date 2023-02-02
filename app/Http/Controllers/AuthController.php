@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     /**
-     * @param UserService $userService
+     * @param  UserService  $userService
      */
     public function __construct(UserService $userService)
     {

@@ -4,21 +4,18 @@ namespace App\Services\Users;
 
 use App\Http\Resources\LoginResource;
 use App\Repository\Users\IUserRepository;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
 
 class UserService implements IUserService
 {
     /**
-     * @param IUserRepository $userRepo
+     * @param  IUserRepository  $userRepo
      */
     public function __construct(IUserRepository $userRepo)
     {
         $this->userRepo = $userRepo;
     }
-
 
     public function login($request): object
     {
@@ -37,8 +34,7 @@ class UserService implements IUserService
     {
         try {
             $this->userRepo->create($request);
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             report($e);
             throw ValidationException::withMessages([
                 'error' => ['terjadi kesalahan'],
@@ -46,7 +42,7 @@ class UserService implements IUserService
         }
 
         return response()->json([
-            "message" => "Berhasil Mendaftar"
+            'message' => 'Berhasil Mendaftar',
         ]);
     }
 
@@ -54,8 +50,7 @@ class UserService implements IUserService
     {
         try {
             $request->user()->tokens()->delete();
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             report($e);
             throw ValidationException::withMessages([
                 'error' => ['terjadi kesalahan'],
@@ -63,7 +58,7 @@ class UserService implements IUserService
         }
 
         return response()->json([
-            "message" => "Berhasil keluar"
+            'message' => 'Berhasil keluar',
         ]);
     }
 }
