@@ -1,0 +1,9 @@
+id: 3
+name: vapor-app
+environments:
+  production:
+    database: perpustakaan-mahasiswa
+    build:
+      - 'composer install --no-dev'
+    deploy:
+      - 'php artisan migrate --force'
