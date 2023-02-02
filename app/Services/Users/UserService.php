@@ -4,13 +4,17 @@ namespace App\Services\Users;
 
 use App\Http\Resources\LoginResource;
 use App\Repository\Users\IUserRepository;
+use App\Services\Reward\IRewardService;
 use App\Traits\ResponseAPI;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class UserService implements IUserService
 {
     use ResponseAPI;
+
+    private IUserRepository $userRepo;
+    private IRewardService $rewardService;
     /**
      * @param  IUserRepository  $userRepo
      */
@@ -21,8 +25,17 @@ class UserService implements IUserService
 
     public function login($request): object
     {
-        $user = $this->userRepo->findByUsername($request->username);
-
+        try {
+            DB::beginTransaction();
+            $user = $this->userRepo->findByUsername($request->username);
+            $this->rewardService->getUserReward($request->rewardId);
+            DB::commit();
+        } catch (\Exception $e)
+        {
+            DB::rollBack();
+            report($e);
+            return $this->error('Server Error.');
+        }
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return $this->error('Username Or Password Wrong.', 400);
         }
