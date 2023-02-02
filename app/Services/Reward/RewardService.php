@@ -24,7 +24,7 @@ class RewardService implements IRewardService
         $rewardList = $this->rewardRepo->list();
         if (!$rewardList)
         {
-            return $this->success("list Rewards",[]);
+            return $this->success("list Rewards", []);
         }
         return $this->success("list Rewards", $rewardList);
     }
@@ -43,7 +43,7 @@ class RewardService implements IRewardService
     public function updateReward(Request $request, int $rewardId): JsonResponse
     {
         try {
-            $this->rewardRepo->update($request,  $rewardId);
+            $this->rewardRepo->update($request, $rewardId);
             return $this->success("update reward successfully");
         } catch (\Exception $e) {
             report($e);
