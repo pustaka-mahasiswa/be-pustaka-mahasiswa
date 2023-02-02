@@ -2,34 +2,63 @@
 
 namespace App\Services\Reward;
 
+use App\Repository\Reward\IRewardRepository;
+use App\Traits\ResponseAPI;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Validation\ValidationException;
 
 class RewardService implements IRewardService
 {
-    public function listReward(Request $request): object
+    use ResponseAPI;
+    /**
+     * @param IRewardRepository $rewardRepo
+     */
+    public function __construct(IRewardRepository $rewardRepo)
     {
-
+        $this->rewardRepo = $rewardRepo;
     }
 
-    public function createReward(Request $request): void
+
+    public function listReward(Request $request): object
+    {
+        $rewardList = $this->rewardRepo->list();
+        if (!$rewardList)
+        {
+            return $this->success("list Rewards",[]);
+        }
+        return $this->success("list Rewards", $rewardList);
+    }
+
+    public function createReward(Request $request): JsonResponse
     {
         try {
-
+            $this->rewardRepo->create($request);
+            return $this->success("create reward successfully");
         } catch (\Exception $e) {
-            throw ValidationException::withMessages([
-                'error' => ['Terjadi Kesalah Server'],
-            ]);
+            report($e);
+            return $this->error("Server Error");
         }
     }
 
-    public function updateReward(Request $request, int $rewardId): void
+    public function updateReward(Request $request, int $rewardId): JsonResponse
     {
-        // TODO: Implement updateReward() method.
+        try {
+            $this->rewardRepo->update($request,  $rewardId);
+            return $this->success("update reward successfully");
+        } catch (\Exception $e) {
+            report($e);
+            return $this->error("Server Error");
+        }
     }
 
-    public function deleteReward(int $rewardId): void
+    public function deleteReward(int $rewardId): JsonResponse
     {
-        // TODO: Implement deleteReward() method.
+        try {
+            $this->rewardRepo->update($rewardId);
+            return $this->success("deleted reward successfully");
+        } catch (\Exception $e) {
+            report($e);
+            return $this->error("Server Error");
+        }
     }
 }
