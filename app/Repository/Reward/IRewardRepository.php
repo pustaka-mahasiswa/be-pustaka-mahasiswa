@@ -6,9 +6,9 @@ interface IRewardRepository
 {
     public function list(): object;
 
-    public function create($data);
+    public function create($data): void;
 
-    public function update($data, int $rewardId);
+    public function update($data, int $rewardId): void;
 
-    public function destroy(int $rewardId);
+    public function destroy(int $rewardId): void;
 }
