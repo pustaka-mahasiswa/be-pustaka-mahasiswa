@@ -61,4 +61,16 @@ class RewardService implements IRewardService
             return $this->error("Server Error");
         }
     }
+
+    public function getUserReward(int $rewardId): void
+    {
+        try {
+            $reward = $this->rewardRepo->findRewardById($rewardId);
+            $this->rewardRepo->userReward($reward, auth()->user());
+        } catch (\Exception $e) {
+            report($e);
+        }
+    }
+
+
 }
