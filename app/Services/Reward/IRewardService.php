@@ -15,5 +15,5 @@ interface IRewardService
 
     public function deleteReward(int $rewardId): JsonResponse;
 
-    public function getUserReward(int $rewardId) : void;
+    public function getUserReward(int $rewardId): void;
 }
